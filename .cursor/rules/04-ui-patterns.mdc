@@ -1,0 +1,37 @@
+---
+description: "Dashboard, machine-failure pages, KPIs, loading, error and empty states, tabs, and charts. Apply when building or editing pages and shared UI components."
+globs: "app/**/page.tsx,app/**/loading.tsx,app/**/error.tsx,components/**/*.tsx"
+alwaysApply: false
+---
+
+# UI Patterns
+
+## Dashboard
+
+- **Structure:** Page title and subtitle, then a grid of KPI cards, then a "Quick Actions" section with buttons linking to machine-failure alerts, analysis, reports, settings (match Angular dashboard links).
+- **KPI cards:** Machines Online (online/total, percentage, status class), Active Alerts (total, critical/warning breakdown), Failure Rate (current %, trend vs previous period), OEE (overall + availability/performance/quality breakdown). Use Tailwind for status classes (e.g. excellent/good/warning/critical based on percentage).
+- **Loading:** Show a loading overlay or skeleton while KPIs are loading (e.g. `loading.tsx` or inline loading state). Do not render KPI grid until data is ready or show placeholders.
+- **Data:** Load KPI data in a Server Component or via a data layer; avoid using `useEffect` for initial fetch when server fetch is possible.
+
+## Machine Failure Section
+
+- **Tabs:** Tab strip for Overview, Alerts, Analysis, AI Insights. Drive tabs from the same nav config as the sidebar (e.g. machine-failure children). Use Next.js `<Link>` with `usePathname()` for active tab styling.
+- **Overview page:** Header with title and last-updated; Failed Products block (see below); KPI cards for failure KPIs; 7-day failure trends (chart or placeholder); Top Failure Causes (Pareto-style list with rank, cause, category, occurrences, percentage, avg downtime, progress bar). Match Angular overview structure.
+- **Failed Products block:** Table/chart of failed products; filters for severity and status (all/critical/high/…); loading state; error state with message and retry button; empty state ("No failed products found"). Use centralized error messages and types from the data layer.
+- **Alerts / Analysis / AI Insights:** Rebuild content to match Angular placeholders; use consistent layout (header, content area) and loading/error patterns.
+
+## Loading, Error, and Empty States
+
+- **Loading:** Use a single pattern: spinner, skeleton, or "Loading…" text. Prefer `loading.tsx` for route-level loading where applicable.
+- **Error:** Show user-facing message from central error config; for server/network/unknown errors show a retry button. Use the same error type → message mapping as in the data layer.
+- **Empty:** When the API returns 200 but empty data (e.g. no failed products), show a friendly empty message, not an error style.
+
+## Charts
+
+- **Library:** Use one charting library (e.g. Recharts or Tremor) for the app. Do not mix multiple chart libs. Replace Angular ngx-charts with the chosen library.
+- **Data shape:** Transform API data (e.g. `FailedProductDto.failedProductCount`) into the chart library's expected format (e.g. `{ name, value }[]` per series). Keep transformation logic in a single place (component or util).
+
+## General
+
+- Use semantic HTML (section, header, main, nav) and Tailwind for layout and styling.
+- Keep interactive elements (buttons, links) accessible (focus, labels). Prefer composition of small components over one large page component.

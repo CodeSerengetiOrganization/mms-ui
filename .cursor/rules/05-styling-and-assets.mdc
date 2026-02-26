@@ -1,0 +1,27 @@
+---
+description: "Tailwind CSS usage, Lucide icons, and static assets. Apply when styling components or adding icons and static files."
+globs: "**/*.tsx,**/*.css,public/**/*"
+alwaysApply: false
+---
+
+# Styling and Assets
+
+## Tailwind CSS
+
+- Use **Tailwind utility classes** for all styling. Do not introduce Angular-style `.scss` or global CSS for component-specific styles; convert existing Angular styles to Tailwind.
+- Prefer responsive utilities (`sm:`, `md:`, `lg:`) for layout and typography. Use the project's design tokens (e.g. spacing, colors) consistently.
+- For status/state colors (e.g. success, warning, critical), use a small set of semantic classes or Tailwind config (e.g. `status-excellent`, `status-critical`) or fixed utility combinations so they are consistent across dashboard and machine-failure UIs.
+
+## Icons
+
+- Use **Lucide React** for icons. Add the package if not present: `@lucide/react`. Replace Angular Material icons or inline SVG with Lucide components (e.g. `import { AlertCircle, LayoutDashboard } from 'lucide-react'`).
+- Where the Angular app used emoji (e.g. in sidebar or KPIs), you may keep emoji for quick parity or replace with Lucide equivalents for a more consistent look.
+
+## Static Assets and Config
+
+- **Public files:** Place static assets in `public/`. Navigation config (e.g. sidebar menu) can live at `public/config/sidebar.menu.json` and be fetched at runtime or imported at build time as needed.
+- **Images:** Use Next.js `<Image>` for images when possible; store under `public/` and reference by path (e.g. `/logo.png`).
+
+## Consistency
+
+- Reuse the same spacing scale, font sizes, and color choices across layout, dashboard, and machine-failure pages so the app feels like one product.
