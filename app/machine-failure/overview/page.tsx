@@ -1,3 +1,5 @@
+import FailedProductsBlock from "@/components/machine-failure/FailedProductsBlock";
+
 export default function OverviewPage() {
   const lastUpdated = new Date().toLocaleString(undefined, {
     dateStyle: "medium",
@@ -39,15 +41,7 @@ export default function OverviewPage() {
         </div>
       </header>
 
-      {/* Failed Products - placeholder */}
-      <section className="mb-8 rounded-lg border border-zinc-200 bg-zinc-50/50 p-6 dark:border-zinc-800 dark:bg-zinc-900/30">
-        <h2 className="mb-4 text-lg font-semibold text-zinc-900 dark:text-zinc-100">
-          Failed Products
-        </h2>
-        <p className="text-sm text-zinc-500 dark:text-zinc-400">
-          Placeholder: Failed products table/chart will be implemented in Step 10.
-        </p>
-      </section>
+      <FailedProductsBlock />
 
       {/* KPI Cards - placeholder */}
       <section className="mb-8">

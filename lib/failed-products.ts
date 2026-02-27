@@ -1,7 +1,14 @@
 import type { FailedProductDto, MachineStatusResponse } from "@/lib/types";
 import { ERROR_MESSAGES, type AppError, type ErrorType } from "@/lib/errors";
 
+/**
+ * Use the Next.js API route (same origin) to avoid CORS.
+ * The API route proxies to the backend; set NEXT_PUBLIC_API_BASE_URL for the backend (e.g. http://localhost:8080/api when using port-forward).
+ */
 const getApiUrl = (): string => {
+  if (typeof window !== "undefined") {
+    return "/api/machines/status";
+  }
   const base = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080/api";
   const version = process.env.NEXT_PUBLIC_API_VERSION ?? "v1";
   return `${base}/${version}/machines/status`;
