@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Factory, User } from "lucide-react";
 import type { NavigationItem } from "@/lib/types/navigation";
 
 export default function Sidebar() {
@@ -44,9 +45,7 @@ export default function Sidebar() {
       {/* Sidebar Header */}
       <div className="flex h-14 items-center justify-between border-b border-zinc-200 px-3 dark:border-zinc-800">
         <div className="flex min-w-0 items-center gap-2">
-          <span className="text-xl" aria-hidden>
-            🏭
-          </span>
+          <Factory className="h-6 w-6 shrink-0 text-zinc-600 dark:text-zinc-400" aria-hidden />
           {!isCollapsed && (
             <span className="truncate text-sm font-medium text-zinc-800 dark:text-zinc-200">
               Machine Monitor
@@ -140,8 +139,8 @@ export default function Sidebar() {
       {!isCollapsed && (
         <div className="border-t border-zinc-200 p-3 dark:border-zinc-800">
           <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-zinc-200 text-sm dark:bg-zinc-700">
-              👤
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-zinc-200 dark:bg-zinc-700">
+              <User className="h-4 w-4 text-zinc-600 dark:text-zinc-400" />
             </div>
             <div className="min-w-0 flex-1">
               <div className="truncate text-sm font-medium text-zinc-800 dark:text-zinc-200">

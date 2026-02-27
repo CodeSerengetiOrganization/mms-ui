@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { LayoutList, AlertTriangle, TrendingUp, Bot } from "lucide-react";
 
 const TABS = [
-  { id: "failure-overview", label: "Overview", icon: "📋", route: "/machine-failure/overview" },
-  { id: "failure-alerts", label: "Alerts", icon: "🚨", route: "/machine-failure/alerts" },
-  { id: "failure-analysis", label: "Analysis", icon: "📈", route: "/machine-failure/analysis" },
-  { id: "failure-ai", label: "AI Insights", icon: "🤖", route: "/machine-failure/ai" },
+  { id: "failure-overview", label: "Overview", Icon: LayoutList, route: "/machine-failure/overview" },
+  { id: "failure-alerts", label: "Alerts", Icon: AlertTriangle, route: "/machine-failure/alerts" },
+  { id: "failure-analysis", label: "Analysis", Icon: TrendingUp, route: "/machine-failure/analysis" },
+  { id: "failure-ai", label: "AI Insights", Icon: Bot, route: "/machine-failure/ai" },
 ];
 
 export default function MachineFailureTabs() {
@@ -38,9 +39,7 @@ export default function MachineFailureTabs() {
                     : "border-transparent text-zinc-500 hover:border-zinc-300 hover:text-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-600 dark:hover:text-zinc-300"
                 }`}
               >
-                <span className="text-base" aria-hidden>
-                  {tab.icon}
-                </span>
+                <tab.Icon className="h-4 w-4 shrink-0" aria-hidden />
                 {tab.label}
               </Link>
             );

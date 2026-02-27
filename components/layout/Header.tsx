@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { User } from "lucide-react";
 
 const APP_TITLE = "Machine Monitoring System";
 
@@ -20,10 +21,10 @@ export default function Header() {
           <>
             <div className="flex items-center gap-2">
               <span
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-200 text-sm dark:bg-zinc-700"
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-200 dark:bg-zinc-700"
                 aria-hidden
               >
-                👤
+                <User className="h-4 w-4 text-zinc-600 dark:text-zinc-400" />
               </span>
               <span className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
                 Admin User
