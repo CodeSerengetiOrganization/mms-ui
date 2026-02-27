@@ -1,0 +1,48 @@
+---
+description: "Project identity and Angular-to-Next.js migration rules for mms-ui. Apply when migrating components, discussing architecture, or when the user references the Angular MMS UI repo."
+globs: ""
+alwaysApply: true
+---
+
+# Project Identity & Migration Rules
+
+## Identity
+
+- This repository is **mms-ui**: the Next.js 16+ (App Router) rebuild of the Machine Monitoring System UI.
+- We are migrating from the Angular application in the **Machine-Monitoring-Systems-UI-Rebuild-And-Work-Together-With-Copilot** repo by **component-by-component reconstruction**.
+- Do not copy-paste Angular code. Rebuild behavior and UI in React/Next.js patterns. Use the Angular repo only as a **reference** for behavior, data shapes, and routing.
+
+## Tech Stack
+
+- **Framework:** Next.js 16+ (App Router), React 19, TypeScript.
+- **Styling:** Tailwind CSS.
+- **Icons:** Prefer Lucide React (add if not present); replace Angular Material or emoji where appropriate.
+- **Data fetching:** Prefer async Server Components with `fetch`; for client-side data use TanStack Query or `use` + fetch when needed.
+
+## Naming Conventions
+
+- **Files:** kebab-case for files (e.g. `failed-product-table.tsx`).
+- **Components:** PascalCase (e.g. `FailedProductTable`).
+- **Hooks:** camelCase with `use` prefix (e.g. `useFailedProducts`).
+- **Types/interfaces:** PascalCase (e.g. `FailedProductDto`, `NavigationItem`).
+- Do not use Angular-style suffixes (e.g. `.component.ts`, `.service.ts`).
+
+## Angular → React Mapping
+
+| Angular | React / Next.js |
+|--------|------------------|
+| `*ngIf="condition"` | `{condition && <Component />}` |
+| `*ngFor="let item of items"` | `{items.map(item => <Item key={item.id} {...item} />)}` |
+| `[prop]="value"` | `prop={value}` |
+| `(click)="fn()"` | `onClick={fn}` |
+| `@Input()` | Props interface |
+| `@Output()` | Callback props (e.g. `onSelect`) |
+| `RouterLink` / `routerLink` | Next.js `<Link href="...">` |
+| `routerLinkActive` | `usePathname()` and compare to `pathname` |
+| Services + RxJS `Observable` | async Server Components, or `useQuery` / `use` + `fetch` |
+| `HttpClient` | `fetch` (with Next.js cache options or in Server Actions) |
+| Angular routing (`routes`) | App Router: `app/dashboard/page.tsx`, `app/machine-failure/overview/page.tsx` |
+
+## Verification
+
+- Before finishing a migrated component, ensure the React version handles the same edge cases as the Angular code: null/empty state, loading, error states, and retry where applicable.

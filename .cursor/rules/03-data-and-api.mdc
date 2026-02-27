@@ -1,0 +1,36 @@
+---
+description: "HTTP client, API contracts, error handling, and shared types. Apply when editing API calls, env, error messages, or type definitions."
+globs: "lib/**/*.ts,app/**/api/**/*.ts,**/services/**/*.ts,**/types/**/*.ts,lib/**/*.tsx"
+alwaysApply: false
+---
+
+# Data and API
+
+## API Base URL and Environment
+
+- Use environment variables for the API base (e.g. `NEXT_PUBLIC_API_BASE_URL` and version). Align with Angular `environment.apiBaseUrl` and `environment.apiVersion`.
+- Example: `process.env.NEXT_PUBLIC_API_BASE_URL` + `/v1` (or your version path). Do not hardcode backend URLs.
+
+## Failed Products API
+
+- **Endpoint:** POST `{apiBaseUrl}/{apiVersion}/machines/status` (matches Angular `FailedProductService`).
+- **Body:** `{ machineId: number, rackId?: number, channelNumber?: number }`.
+- **Response:** Shape like `MachineStatusResponse`: e.g. `{ failedProducts?: FailedProductDto[] }`. Use `response.failedProducts ?? []` when consuming.
+- **Types:** Define or reuse `FailedProductDto` and `MachineStatusResponse` (e.g. in `lib/types/` or `lib/api/`). Match the Angular/OpenAPI model field names.
+
+## Error Handling
+
+- **Central messages:** Maintain a single source of user-facing error messages (e.g. `lib/errors.ts` or `config/error-messages.ts`) with keys such as: `SERVER_ERROR`, `NETWORK_ERROR`, `UNKNOWN_ERROR`, `VALIDATION_ERROR`, `NOT_FOUND`. Match the Angular `ERROR_MESSAGES` and `AppError` pattern.
+- **Status mapping:** Map HTTP status to message: 500 → server error, 0/offline → network error, 400 → validation, 404 → not found. For 400, prefer extracting backend validation message from response body when present.
+- **Retry:** For 5xx and network errors, consider retry (e.g. 2–3 attempts with delay) in fetch wrapper or data layer, similar to Angular `ErrorInterceptor`. Do not retry 4xx.
+
+## Types and Models
+
+- **Navigation:** `NavigationItem`: `{ id, label, icon, route?, children?, expanded? }`. Used by sidebar and any nav config loader.
+- **Charts:** Use a `ChartDataPoint`-style type (e.g. `{ name: string, value: number }[]`) where the Angular app used chart data.
+- **Barrel exports:** Use `lib/types/index.ts` or similar to re-export shared types. Keep API model types (e.g. from OpenAPI) in a dedicated folder if you generate them.
+
+## Data Fetching Placement
+
+- **Server:** Use async Server Components and `fetch` for initial load of failed products, KPIs, or nav config when appropriate.
+- **Client:** Use TanStack Query or a custom hook with `fetch` for client-side refetch, filters, or retry. Expose a clear loading and error state to the UI.

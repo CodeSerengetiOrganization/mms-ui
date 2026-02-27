@@ -1,0 +1,66 @@
+{
+  "navigationItems": [
+    {
+      "id": "dashboard",
+      "label": "Dashboard",
+      "icon": "📊",
+      "route": "/dashboard"
+    },
+    {
+      "id": "machines",
+      "label": "Machines",
+      "icon": "🏭",
+      "route": "/machines"
+    },
+    {
+      "id": "machine-failure",
+      "label": "Machine Failure",
+      "icon": "⚠️",
+      "expanded": false,
+      "children": [
+        {
+          "id": "failure-overview",
+          "label": "Overview",
+          "icon": "📋",
+          "route": "/machine-failure/overview"
+        },
+        {
+          "id": "failure-alerts",
+          "label": "Alerts",
+          "icon": "🚨",
+          "route": "/machine-failure/alerts"
+        },
+        {
+          "id": "failure-analysis",
+          "label": "Analysis",
+          "icon": "📈",
+          "route": "/machine-failure/analysis"
+        },
+        {
+          "id": "failure-ai",
+          "label": "AI Insights",
+          "icon": "🤖",
+          "route": "/machine-failure/ai"
+        }
+      ]
+    },
+    {
+      "id": "reports",
+      "label": "Reports",
+      "icon": "📄",
+      "route": "/reports"
+    },
+    {
+      "id": "settings",
+      "label": "Settings",
+      "icon": "⚙️",
+      "route": "/settings"
+    },
+    {
+      "id": "help",
+      "label": "Help",
+      "icon": "❓",
+      "route": "/help"
+    }
+  ]
+}

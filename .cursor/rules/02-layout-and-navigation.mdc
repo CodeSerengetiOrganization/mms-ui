@@ -1,0 +1,29 @@
+---
+description: "Layout shell, sidebar, header, and navigation config. Apply when editing root layout, sidebar, header, or navigation from JSON config."
+globs: "app/layout.tsx,**/sidebar/**/*.tsx,**/header/**/*.tsx,**/Sidebar*.tsx,**/Header*.tsx,components/layout/**/*.tsx"
+alwaysApply: false
+---
+
+# Layout and Navigation
+
+## Shell Structure
+
+- **Root layout** (`app/layout.tsx`): Renders the app shell: sidebar + main area. Main area contains header + `<main>{children}</main>` (or equivalent) for page content.
+- Match the Angular structure: `<aside>` sidebar (collapsible), then a div with header and content area. Do not use Angular-specific class names; use semantic HTML and Tailwind.
+
+## Sidebar
+
+- **Navigation source:** Load menu structure from config (e.g. `public/config/sidebar.menu.json` or fetch from API). Structure should match the Angular `navigationItems`: `{ id, label, icon, route?, children?, expanded? }`.
+- **Collapsible:** Sidebar can collapse (icon-only). Toggle state lives in a Client Component (e.g. `useState` or context).
+- **Active link:** Use Next.js `usePathname()` and compare to `item.route` (or `child.route`) to apply active styles. Do not use Angular's `routerLinkActive`; replicate the behavior with pathname comparison.
+- **Nested items:** Parent items with `children` expand/collapse; render child links when expanded. Reference the Angular sidebar template for the exact structure (logo, nav list, submenu, footer user section).
+
+## Header
+
+- **Content:** App title (e.g. "Machine Monitoring System") and right-side user section (avatar/name, Login/Logout). Match Angular header: conditional login vs logged-in UI.
+- **Props:** Title can be passed from layout or be a constant. Login state can be client state or from a hook/context until auth is implemented.
+
+## Routing Alignment
+
+- Routes must align with sidebar config: `/` or `/dashboard`, `/machine-failure/overview`, `/machine-failure/alerts`, `/machine-failure/analysis`, `/machine-failure/ai`, and placeholders for machines, reports, settings, help as needed.
+- Use Next.js `<Link href={route}>` for navigation. Prefer the same route strings as in the Angular `app.routes.ts` and `sidebar.menu.json`.
