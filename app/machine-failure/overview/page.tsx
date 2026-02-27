@@ -1,4 +1,4 @@
-import FailedProductsBlock from "@/components/machine-failure/FailedProductsBlock";
+import FailedProductSection from "@/components/machine-failure/FailedProductSection";
 
 export default function OverviewPage() {
   const lastUpdated = new Date().toLocaleString(undefined, {
@@ -41,7 +41,7 @@ export default function OverviewPage() {
         </div>
       </header>
 
-      <FailedProductsBlock />
+      <FailedProductSection />
 
       {/* KPI Cards - placeholder */}
       <section className="mb-8">

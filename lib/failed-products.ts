@@ -1,4 +1,4 @@
-import type { FailedProductDto, MachineStatusResponse } from "@/lib/types";
+import type { FailedProductDto, MachineStatusResponse, ChartDataPoint } from "@/lib/types";
 import { ERROR_MESSAGES, type AppError, type ErrorType } from "@/lib/errors";
 
 /**
@@ -78,4 +78,17 @@ export async function fetchFailedProducts(
     if (isNetwork) return { ok: false, error: createAppError("NETWORK_ERROR", err) };
     return { ok: false, error: createAppError("UNKNOWN_ERROR", err) };
   }
+}
+
+/**
+ * Transforms failed products into chart-ready series (one per product).
+ * Matches Angular processChartData: each series is { name: "Batch N", value: count }[].
+ */
+export function processChartData(failedProducts: FailedProductDto[]): ChartDataPoint[][] {
+  return failedProducts.map((data) =>
+    (data.failedProductCount ?? []).map((count, batchIndex) => ({
+      name: `Batch ${batchIndex + 1}`,
+      value: count,
+    }))
+  );
 }
