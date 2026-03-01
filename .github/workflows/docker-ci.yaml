@@ -50,8 +50,9 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          push: true
+          # Only push on push events; build but do not push on pull_request (avoids 403 from fork/limited token)
+          push: ${{ github.event_name != 'pull_request' }}
           tags: |
-            ghcr.io/codeserengetiorganization/mms-ui:${{ env.FULL_TAG }}
-            ghcr.io/codeserengetiorganization/mms-ui:${{ env.SEMANTIC_TAG }}
-            ghcr.io/codeserengetiorganization/mms-ui:latest
+            ghcr.io/codeserengetiorganization/mms-ui-next:${{ env.FULL_TAG }}
+            ghcr.io/codeserengetiorganization/mms-ui-next:${{ env.SEMANTIC_TAG }}
+            ghcr.io/codeserengetiorganization/mms-ui-next:latest
