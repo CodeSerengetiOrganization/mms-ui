@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "http://mms-backend-service:8080/api/:path*", // Internal K8s service DNS + port
+        destination: "http://mms-backend-service:8080/api/v1/:path*", // Backend expects /api/v1/... (e.g. /api/v1/machines/status)
       },
     ];
   },
