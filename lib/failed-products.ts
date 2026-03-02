@@ -2,21 +2,25 @@ import type { FailedProductDto, MachineStatusResponse, ChartDataPoint } from "@/
 import { ERROR_MESSAGES, type AppError, type ErrorType } from "@/lib/errors";
 
 /**
- * Use the Next.js API route (same origin) to avoid CORS.
+ * Use the Next.js rewrite (same origin) to avoid CORS.
  * Frontend calls `/api/machines/status`, which Next.js rewrites to the backend service.
  * On the server, we fall back to:
- * - dev:  http://localhost:8080/api (e.g. local Spring Boot with port-forward)
- * - prod: http://mms-backend-service:8080/api (K8s internal service DNS)
+ * - local (e.g. pnpm dev): http://localhost:8080/api (port-forward)
+ * - K3s (NODE_ENV prod/dev/sit): http://mms-backend-service:8080/api
  */
 const getApiUrl = (): string => {
   if (typeof window !== "undefined") {
     return "/api/machines/status";
   }
 
-  const isProd = process.env.NODE_ENV === "production";
+  const useK3sBackend = ["prod", "dev", "sit", "production"].includes(
+    process.env.NODE_ENV ?? ""
+  );
   const base =
     process.env.NEXT_PUBLIC_API_BASE_URL ??
-    (isProd ? "http://mms-backend-service:8080/api" : "http://localhost:8080/api");
+    (useK3sBackend
+      ? "http://mms-backend-service:8080/api"
+      : "http://localhost:8080/api");
 
   const version = process.env.NEXT_PUBLIC_API_VERSION ?? "v1";
   return `${base}/${version}/machines/status`;
