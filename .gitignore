@@ -22,7 +22,9 @@
 
 # misc
 .DS_Store
+tech-note*.md
 *.pem
+*.code-workspace
 
 # debug
 npm-debug.log*
